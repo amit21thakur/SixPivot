@@ -4,11 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace SixPivotApp.Services
+namespace SixPivotApp.ApiClients.Interfaces
 {
-    public interface IProductService
+    public interface IProductsApiClient
     {
-        IEnumerable<Product> GetAllProducts();
-        
+        Task<IEnumerable<Product>> GetProductAsync();
     }
 }

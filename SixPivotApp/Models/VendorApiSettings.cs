@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace SixPivotApp.Models
 {
-    public class RetailApiSettings
+    public class VendorApiSettings
     {
         public string Host { get; set; }
         public string Key { get; set; }

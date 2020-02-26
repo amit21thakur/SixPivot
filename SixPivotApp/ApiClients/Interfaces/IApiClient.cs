@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace SixPivotApp.Common.Interfaces
+namespace SixPivotApp.ApiClients.Interfaces
 {
     public interface IApiClient
     {

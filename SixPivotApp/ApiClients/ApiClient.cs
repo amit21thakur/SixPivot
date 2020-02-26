@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using SixPivotApp.ApiClients.Interfaces;
 using SixPivotApp.Common.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -7,7 +8,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SixPivotApp.Common
+namespace SixPivotApp.ApiClients
 {
     public class ApiClient : IApiClient
     {
