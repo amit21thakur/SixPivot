@@ -8,7 +8,7 @@ namespace SixPivotApp.Services
 {
     public interface IProductService
     {
-        IEnumerable<Product> GetAllProducts();
+        Task<IEnumerable<Product>> GetAllProductsAsync();
         
     }
 }

@@ -1,5 +1,8 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using SixPivotApp.ApiClients.Interfaces;
+using SixPivotApp.Common;
 using SixPivotApp.Common.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -12,28 +15,27 @@ namespace SixPivotApp.ApiClients
 {
     public class ApiClient : IApiClient
     {
-        public ApiClient(string baseApiUrl, IJsonSerializer jsonSerializer, ILogger logger)
+        public ApiClient(IOptions<VendorApiSettings> vendorApiSettings, IJsonSerializer jsonSerializer)
         {
-            _baseApiUrl = baseApiUrl;
+            _vendorApiSettings = vendorApiSettings;
             _jsonSerializer = jsonSerializer;
-            _logger = logger;
         }
 
         public async Task<T> GetAsync<T>(string uri)
         {
             using (HttpClient httpClient = new HttpClient() 
             {
-                BaseAddress = new Uri(_baseApiUrl) 
+                BaseAddress = new Uri(_vendorApiSettings.Value.Host) 
             })
             {
+                SetApiKey(httpClient);
 
                 HttpResponseMessage response = await httpClient.GetAsync(uri);
                 string responseContent = await response.Content.ReadAsStringAsync();
 
                 if (!response.IsSuccessStatusCode)
                 {
-                    string message = $"Error during GET request for {_baseApiUrl}{uri}. Response Content: {responseContent}";
-                    _logger.LogError(message);
+                    string message = $"Error during GET request for {_vendorApiSettings.Value.Host}{uri}. Response Content: {responseContent}";
                     throw new Exception(message);
                 }
 
@@ -43,6 +45,10 @@ namespace SixPivotApp.ApiClients
             }
         }
 
+        private void SetApiKey(HttpClient client)
+        {
+            client.DefaultRequestHeaders.Add("api-key", _vendorApiSettings.Value.Key);
+        }
         public async Task PostAsync(string uri, object request, IDictionary<string, string> headers = null)
         {
             await PostBaseAsync(uri, request, headers: headers);
@@ -60,9 +66,10 @@ namespace SixPivotApp.ApiClients
         {
             using (HttpClient httpClient = new HttpClient()
             {
-                BaseAddress = new Uri(_baseApiUrl)
+                BaseAddress = new Uri(_vendorApiSettings.Value.Host),
             })
             {
+                SetApiKey(httpClient);
 
                 if (headers != null)
                     foreach (KeyValuePair<string, string> header in headers)
@@ -76,8 +83,7 @@ namespace SixPivotApp.ApiClients
 
                 if (!response.IsSuccessStatusCode)
                 {
-                    string message = $"Error during POST request for {_baseApiUrl}{uri}. Response Content: {responseContent}";
-                    _logger.LogError(message);
+                    string message = $"Error during POST request for {_vendorApiSettings.Value.Host}{uri}. Response Content: {responseContent}";
                     throw new Exception(message);
                 }
 
@@ -85,8 +91,7 @@ namespace SixPivotApp.ApiClients
             }
         }
 
-        private readonly string _baseApiUrl;
+        private readonly IOptions<VendorApiSettings>  _vendorApiSettings;
         private readonly IJsonSerializer _jsonSerializer;
-        private readonly ILogger _logger;
     }
 }

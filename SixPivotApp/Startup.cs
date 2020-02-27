@@ -5,8 +5,11 @@ using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 using SixPivotApp.ApiClients;
 using SixPivotApp.ApiClients.Interfaces;
+using SixPivotApp.Common;
+using SixPivotApp.Common.Interfaces;
 using SixPivotApp.Services;
 
 namespace SixPivotApp
@@ -29,9 +32,17 @@ namespace SixPivotApp
             {
                 configuration.RootPath = "ClientApp/dist";
             });
-            services.AddScoped<IApiClient, ApiClient>();
-            services.AddScoped<IProductsApiClient, ProductsApiClient>();
-            services.AddScoped<IProductService, ProductService>();
+
+            services.AddOptions();
+
+            services.Configure<VendorApiSettings>(Configuration.GetSection("VendorApiSettings"));
+
+
+            services.AddTransient<IApiClient, ApiClient>()
+            .AddScoped<IJsonSerializer, JsonSerializer>()
+            .AddScoped<IApiClient, ApiClient>()
+            .AddScoped<IProductsApiClient, ProductsApiClient>()
+            .AddScoped<IProductService, ProductService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
