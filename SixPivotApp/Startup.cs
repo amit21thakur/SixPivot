@@ -11,6 +11,7 @@ using SixPivotApp.ApiClients.Interfaces;
 using SixPivotApp.Common;
 using SixPivotApp.Common.Interfaces;
 using SixPivotApp.Services;
+using SixPivotApp.Services.Interfaces;
 
 namespace SixPivotApp
 {
@@ -42,7 +43,9 @@ namespace SixPivotApp
             .AddScoped<IJsonSerializer, JsonSerializer>()
             .AddScoped<IApiClient, ApiClient>()
             .AddScoped<IProductsApiClient, ProductsApiClient>()
-            .AddScoped<IProductService, ProductService>();
+            .AddScoped<IFxRatesApiClient, FxRatesApiClient>()
+            .AddScoped<IProductService, ProductService>()
+            .AddScoped<IFxRatesService, FxRatesService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

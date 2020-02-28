@@ -5,23 +5,19 @@ using System.Threading.Tasks;
 using SixPivotApp.ApiClients.Interfaces;
 using SixPivotApp.Common;
 using SixPivotApp.Models;
+using SixPivotApp.Services.Interfaces;
 
 namespace SixPivotApp.Services
 {
-    public class ProductService : IProductService
+    public class FxRatesService : IFxRatesService
     {
-        public ProductService(IProductsApiClient productsApiClient) => _productsApiClient = productsApiClient;
+        public FxRatesService(IFxRatesApiClient ratesApiClient) => _ratesApiClient = ratesApiClient;
 
-        public async Task<IEnumerable<Product>> GetAllProductsAsync()
+        public async Task<IEnumerable<FxRate>> GetAllRatesAsync()
         {
-            var products = await _productsApiClient.GetProductAsync();
-            foreach(var product in products)
-            {
-                product.UnitPrice *= Constants.MarginFactor;
-            }
-            return products;
+            return await _ratesApiClient.GetRatesAsync();
         }
 
-        private readonly IProductsApiClient _productsApiClient;
+        private readonly IFxRatesApiClient _ratesApiClient;
     }
 }

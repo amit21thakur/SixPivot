@@ -11,22 +11,22 @@ namespace SixPivotApp.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class ProductsController : ControllerBase
+    public class RatesController : ControllerBase
     {
-        private readonly ILogger<ProductsController> _logger;
-        private readonly IProductService _productService;
+        private readonly ILogger<RatesController> _logger;
+        private readonly IFxRatesService _ratesService;
 
-        public ProductsController(ILogger<ProductsController> logger, IProductService productService)
+        public RatesController(ILogger<RatesController> logger, IFxRatesService ratesService)
         {
             _logger = logger;
-            _productService = productService;
+            _ratesService = ratesService;
         }
 
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var products = await _productService.GetAllProductsAsync();
-            return Ok(products);
+            var rates = await _ratesService.GetAllRatesAsync();
+            return Ok(rates);
         }
     }
 }
