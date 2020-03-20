@@ -2,7 +2,7 @@
   <div class="col-md-12">
 
     
-    <app-product-detail
+    <app-product-detail [rateEvent]="rateEvent"
                         *ngFor="let item of items"
                         [productItem]="item">
 

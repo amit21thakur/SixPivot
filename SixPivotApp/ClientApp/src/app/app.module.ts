@@ -22,7 +22,7 @@ import { ProductDetailComponent } from './product-list/product-detail/product-de
     HttpClientModule,
     FormsModule,
       RouterModule.forRoot([
-          { path: '', component: ProductListComponent, pathMatch: 'full' },
+          //{ path: '', component: ProductListComponent, pathMatch: 'full' },
     ])
     ],
     providers: [ProductService, RateService],

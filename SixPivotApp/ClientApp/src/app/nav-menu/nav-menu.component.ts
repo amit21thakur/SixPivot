@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
 import { RateService } from '../services/rate.service';
 import { RateModel } from '../models/rate.model';
 import { RateEventModel } from '../models/rate.event.model';
@@ -10,6 +10,8 @@ import { RateEventModel } from '../models/rate.event.model';
   styleUrls: ['./nav-menu.component.css']
 })
 export class NavMenuComponent {
+
+    @Output() onCurrencyChanged = new EventEmitter<RateEventModel>();
   isExpanded = false;
 
   collapse() {
@@ -22,12 +24,18 @@ export class NavMenuComponent {
 
     constructor(private rateService: RateService) { }
 
-    public rateEvent: RateEventModel = new RateEventModel("AUD", 1);
+    public rateEvent: RateEventModel;
+
+    ngOnInit() {
+        this.rateEvent = new RateEventModel("AUD", 1);
+        this.onCurrencyChanged.emit(this.rateEvent);
+    }
 
     onCurrencyChange(currency:string) {
 
         if (currency.localeCompare("AUD") === 0) {
             this.rateEvent = new RateEventModel(currency, 1);
+            this.onCurrencyChanged.emit(this.rateEvent);
         }
         else {
             this.rateService.getRates().subscribe(
@@ -39,6 +47,7 @@ export class NavMenuComponent {
                             break;
                         }
                     }
+                    this.onCurrencyChanged.emit(this.rateEvent);
                 },
                 (err) => {
                     console.log(err)

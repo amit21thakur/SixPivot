@@ -1,6 +1,6 @@
 <body>
-  <app-nav-menu></app-nav-menu>
+  <app-nav-menu (onCurrencyChanged)="setCurrencyChange($event)"></app-nav-menu>
   <div class="container">
-    <router-outlet></router-outlet>
+    <app-product-list [rateEvent]="rateEvent"></app-product-list>
   </div>
 </body>

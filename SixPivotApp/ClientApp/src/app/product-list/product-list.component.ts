@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { ProductService } from '../services/product.service';
 import { ProductModel } from '../models/product.model';
+import { RateEventModel } from '../models/rate.event.model';
 
 @Component({
   selector: 'app-product-list',
@@ -13,6 +14,8 @@ export class ProductListComponent implements OnInit {
     private items: Array<ProductModel> = [];
 
     constructor(private productService: ProductService) { }
+
+    @Input() rateEvent: RateEventModel;
 
     ngOnInit() {
         this.productService.getAllProducts().subscribe(

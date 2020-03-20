@@ -5,7 +5,7 @@
     <p class="list-group-item-text">{{productItem.description}}</p>
 
     <hr />
-    <span><b>$ {{productItem.unitPrice.toFixed(2)}}</b></span>
+    <span><b>{{rateEvent.selectedCurrency}} {{(rateEvent.selectedRate * productItem.unitPrice).toFixed(2)}}</b></span>
   </div>
 </div>
 
