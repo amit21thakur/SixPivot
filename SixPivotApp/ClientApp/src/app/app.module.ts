@@ -9,23 +9,25 @@ import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { ProductListComponent } from './product-list/product-list.component';
 import { ProductDetailComponent } from './product-list/product-detail/product-detail.component';
+import { OrderDetailsComponent } from './order-details/order-details.component';
+import { CookieService } from 'ngx-cookie-service';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    NavMenuComponent,
-    ProductListComponent,
-    ProductDetailComponent
+        AppComponent,
+        NavMenuComponent,
+        ProductListComponent,
+        ProductDetailComponent,
+        OrderDetailsComponent
   ],
   imports: [
-    BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
-    HttpClientModule,
-    FormsModule,
+      BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
+      HttpClientModule,
+      FormsModule,
       RouterModule.forRoot([
-          //{ path: '', component: ProductListComponent, pathMatch: 'full' },
     ])
     ],
-    providers: [ProductService, RateService],
-  bootstrap: [AppComponent]
+    providers: [ProductService, RateService, CookieService],
+    bootstrap: [AppComponent]
 })
 export class AppModule { }

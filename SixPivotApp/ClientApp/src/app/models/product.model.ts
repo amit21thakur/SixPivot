@@ -4,5 +4,4 @@ export class ProductModel {
     public description: string;
     public unitPrice: number;
     public maximumQuantity: number;
-    public quantityToOrder: number;
 }

@@ -1,0 +1,28 @@
+<div class="card position-fixed" style="width: 360px">
+  <div class="card-header"><h4>Order Details</h4></div>
+  <div class="card-body">
+
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Quantity</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of orderItems; let i = index">
+          <td>{{item.name}}</td>
+          <td>{{item.quantity}}</td>
+          <td>
+            <button class="btn btn-danger" (click)="removeItem(i)">X</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+  <div class="card-footer">
+    <button class="btn btn-success">Submit</button>
+  </div>
+</div>

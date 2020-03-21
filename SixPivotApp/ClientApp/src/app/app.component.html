@@ -1,6 +1,13 @@
 <body>
   <app-nav-menu (onCurrencyChanged)="setCurrencyChange($event)"></app-nav-menu>
   <div class="container">
-    <app-product-list [rateEvent]="rateEvent"></app-product-list>
-  </div>
+    <div class="row">
+      <div class="col-xl-8">
+        <app-product-list [rateEvent]="rateEvent" (onItemAdded)="onItemAddedToOrder()"></app-product-list>
+      </div>
+      <div class="col-xl-4 ">
+        <app-order-details #orderDetailsTag ></app-order-details>
+      </div>
+      </div>
+    </div>
 </body>

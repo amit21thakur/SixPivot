@@ -1,12 +1,15 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { ProductService } from '../services/product.service';
 import { ProductModel } from '../models/product.model';
 import { RateEventModel } from '../models/rate.event.model';
 
+
 @Component({
   selector: 'app-product-list',
   templateUrl: './product-list.component.html',
-    styleUrls: ['./product-list.component.css'],
+    styleUrls: [
+        './product-list.component.css'
+    ],
     providers: [ProductService]
 })
 export class ProductListComponent implements OnInit {
@@ -16,6 +19,7 @@ export class ProductListComponent implements OnInit {
     constructor(private productService: ProductService) { }
 
     @Input() rateEvent: RateEventModel;
+    @Output() onItemAdded = new EventEmitter<void>();
 
     ngOnInit() {
         this.productService.getAllProducts().subscribe(
@@ -29,6 +33,10 @@ export class ProductListComponent implements OnInit {
             },
 
         );
+    }
+
+    OnItemAddedToOrder() {
+        this.onItemAdded.emit();
     }
 
 
