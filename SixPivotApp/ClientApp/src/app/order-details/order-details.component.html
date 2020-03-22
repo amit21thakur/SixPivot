@@ -33,7 +33,7 @@
         <input type="email" class="form-control" id="email" name="email" [(ngModel)]="emailAddress">
       </div>
     </div>
-    <button class="btn btn-success" (click)="placeOrder()">Place Order</button>
+    <button class="btn btn-success" (click)="placeOrder()" [disabled]="orderItems==undefined || orderItems.length === 0 || !inputParamsValid()">Place Order</button>
   </div>
   <div class="alert alert-success" [hidden]="!showSuccessMsg">
     <strong>Success!</strong> The order has been submitted successfully.
