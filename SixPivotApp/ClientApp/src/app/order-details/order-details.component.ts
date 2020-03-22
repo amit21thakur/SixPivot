@@ -14,6 +14,9 @@ export class OrderDetailsComponent implements OnInit {
     constructor(private cookieService: CookieService) { }
 
     orderItems: OrderItemModel[];
+    name: string;
+    emailAddress: string;
+
     onProductAddedToOrder() {
         this.orderItems = JSON.parse(this.cookieService.get(this.cookieName));
     }
@@ -31,6 +34,11 @@ export class OrderDetailsComponent implements OnInit {
         if (this.orderItems.length > 0) {
             this.cookieService.set(this.cookieName, JSON.stringify(this.orderItems));
         }
+    }
+
+    placeOrder() {
+        console.log(this.name);
+        console.log(this.emailAddress);
     }
 
 }

@@ -23,6 +23,22 @@
 
   </div>
   <div class="card-footer">
-    <button class="btn btn-success">Submit</button>
+    <div [hidden]="orderItems==undefined || orderItems.length === 0">
+      <div class="form-group">
+        <label for="usr">Name:</label>
+        <input type="text" class="form-control" id="name" name="name" [(ngModel)]="name">
+      </div>
+      <div class="form-group">
+        <label for="pwd">Email:</label>
+        <input type="email" class="form-control" id="email" name="email" [(ngModel)]="emailAddress">
+      </div>
+    </div>
+    <button class="btn btn-success" (click)="placeOrder()">Place Order</button>
   </div>
+
+
+
 </div>
+
+
+

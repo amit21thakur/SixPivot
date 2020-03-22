@@ -7,10 +7,10 @@
     <hr />
     <span><b>{{rateEvent.selectedCurrency}} {{(rateEvent.selectedRate * productItem.unitPrice).toFixed(2)}}</b></span>
 
-    <form class="form-inline" action="/action_page.php">
+    <form class="form-inline">
       <label>Order: </label>
-      <input type="number" class="form-control ml-2" placeholder="Quantity" [value]="quantityToOrder" (change)="onQuantityChange($event.target.value)">
-      <button type="button" class="btn btn-success  ml-2" (click)="addProductToOrder()">Add</button>
+      <input type="number" class="form-control ml-2" placeholder="Quantity" (input)="onQuantityChange($event.target.value)">
+      <button type="button" class="btn btn-success  ml-2" (click)="addProductToOrder()" [disabled]="!isQtyValid()">Add</button>
     </form>
 
   </div>

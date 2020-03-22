@@ -21,22 +21,48 @@ export class ProductDetailComponent {
     @Input() rateEvent: RateEventModel;
     @Output() onItemAdded = new EventEmitter<void>();
 
+    private cookieName: string = "order-details";
 
     public quantityToOrder: number = 0;
 
     public onQuantityChange(qty: number) {
+        
         this.quantityToOrder = qty;
-        console.log(this.quantityToOrder);
+    }
+    public isQtyValid() {
+        var regex = new RegExp("^\[1-9]+[0-9]*$");
+        var isValidNumber = regex.test(this.quantityToOrder.toString());
+        if (!isValidNumber) {
+            return false;
+        }
+
+        if (this.productItem.maximumQuantity && this.productItem.maximumQuantity > 0) {
+            var orderItems = this.getOrderedItems();
+
+            var index;
+            var alreadyAddedCount = 0;
+            for (index in orderItems) {
+                if (orderItems[index].productId.localeCompare(this.productItem.productId) === 0) {
+                    alreadyAddedCount = orderItems[index].quantity;
+                    break;
+                }
+            }
+            return !(this.quantityToOrder > this.productItem.maximumQuantity - alreadyAddedCount);
+        }
+
+        return true;
     }
 
-    private cookieName: string = "order-details";
-
-    public addProductToOrder() {
+    private getOrderedItems() {
         var orderItems: OrderItemModel[] = [];
         if (this.cookieService.check(this.cookieName)) {
             orderItems = JSON.parse(this.cookieService.get(this.cookieName));
         }
+        return orderItems;
+    }
 
+    public addProductToOrder() {
+        var orderItems = this.getOrderedItems();
 
         var index;
         var itemExists = false;
