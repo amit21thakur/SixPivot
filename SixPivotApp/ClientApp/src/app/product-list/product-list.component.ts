@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
-import { ProductService } from '../services/product.service';
-import { ProductModel } from '../models/product.model';
-import { RateEventModel } from '../models/rate.event.model';
+import { ProductService } from '../../services/product.service';
+import { ProductModel } from '../../models/product.model';
+import { RateEventModel } from '../../models/rate.event.model';
 
 
 @Component({

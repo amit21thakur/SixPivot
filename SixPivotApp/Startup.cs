@@ -44,7 +44,9 @@ namespace SixPivotApp
             .AddScoped<IApiClient, ApiClient>()
             .AddScoped<IProductsApiClient, ProductsApiClient>()
             .AddScoped<IFxRatesApiClient, FxRatesApiClient>()
+            .AddScoped<IOrdersApiClient, OrdersApiClient>()
             .AddScoped<IProductService, ProductService>()
+            .AddScoped<IOrdersService, OrdersService>()
             .AddScoped<IFxRatesService, FxRatesService>();
         }
 

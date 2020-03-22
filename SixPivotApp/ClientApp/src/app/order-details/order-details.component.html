@@ -35,9 +35,12 @@
     </div>
     <button class="btn btn-success" (click)="placeOrder()">Place Order</button>
   </div>
-
-
-
+  <div class="alert alert-success" [hidden]="!showSuccessMsg">
+    <strong>Success!</strong> The order has been submitted successfully.
+  </div>
+  <div class="alert alert-danger"  [hidden]="!showErrorMsg">
+    <strong>Error!</strong> Order submission failed.
+  </div>
 </div>
 
 

@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { RateEventModel } from './models/rate.event.model';
+import { RateEventModel } from '../models/rate.event.model';
 import { OrderDetailsComponent } from './order-details/order-details.component';
 
 @Component({

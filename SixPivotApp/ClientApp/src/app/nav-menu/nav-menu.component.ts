@@ -1,7 +1,6 @@
 import { Component, Output, EventEmitter } from '@angular/core';
-import { RateService } from '../services/rate.service';
-import { RateModel } from '../models/rate.model';
-import { RateEventModel } from '../models/rate.event.model';
+import { RateService } from '../../services/rate.service';
+import { RateEventModel } from '../../models/rate.event.model';
 
 
 @Component({

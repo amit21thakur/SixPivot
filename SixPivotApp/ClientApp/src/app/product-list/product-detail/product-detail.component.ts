@@ -1,8 +1,8 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { ProductModel } from '../../models/product.model';
-import { RateEventModel } from '../../models/rate.event.model';
+import { ProductModel } from '../../../models/product.model';
+import { RateEventModel } from '../../../models/rate.event.model';
 import { CookieService } from 'ngx-cookie-service';
-import { OrderItemModel } from '../../models/order.item.model';
+import { OrderItemModel } from '../../../models/order.item.model';
 
 
 @Component({
