@@ -9,15 +9,20 @@ using SixPivotApp.Services.Interfaces;
 
 namespace SixPivotApp.Services
 {
-    public class FxRatesService : IFxRatesService
+    public class ProductService : IProductService
     {
-        public FxRatesService(IFxRatesApiClient ratesApiClient) => _ratesApiClient = ratesApiClient;
+        public ProductService(IProductsApiClient productsApiClient) => _productsApiClient = productsApiClient;
 
-        public async Task<IEnumerable<FxRate>> GetAllRatesAsync()
+        public async Task<IEnumerable<Product>> GetAllProductsAsync()
         {
-            return await _ratesApiClient.GetRatesAsync();
+            var products = await _productsApiClient.GetProductAsync();
+            foreach(var product in products)
+            {
+                product.UnitPrice *= Constants.MarginFactor;
+            }
+            return products;
         }
 
-        private readonly IFxRatesApiClient _ratesApiClient;
+        private readonly IProductsApiClient _productsApiClient;
     }
 }
