@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
+using Serilog;
 using SixPivotApp.Services;
 using SixPivotApp.Services.Interfaces;
 
@@ -13,20 +13,28 @@ namespace SixPivotApp.Controllers
     [Route("api/[controller]")]
     public class RatesController : ControllerBase
     {
-        private readonly ILogger<RatesController> _logger;
+        private readonly ILogger _logger;
         private readonly IFxRatesService _ratesService;
 
-        public RatesController(ILogger<RatesController> logger, IFxRatesService ratesService)
+        public RatesController(IFxRatesService ratesService)
         {
-            _logger = logger;
+            _logger = Log.ForContext(typeof(RatesController));
             _ratesService = ratesService;
         }
 
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var rates = await _ratesService.GetAllRatesAsync();
-            return Ok(rates);
+            try
+            {
+                var rates = await _ratesService.GetAllRatesAsync();
+                return Ok(rates);
+            }
+            catch(Exception ex)
+            {
+                _logger.Error(ex, "Failed to get the exchange rates.");
+                return StatusCode(500);
+            }
         }
     }
 }

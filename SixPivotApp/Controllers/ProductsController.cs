@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
+using Serilog;
 using SixPivotApp.Services;
 using SixPivotApp.Services.Interfaces;
 
@@ -13,20 +13,28 @@ namespace SixPivotApp.Controllers
     [Route("api/[controller]")]
     public class ProductsController : ControllerBase
     {
-        private readonly ILogger<ProductsController> _logger;
+        private readonly ILogger _logger;
         private readonly IProductService _productService;
 
-        public ProductsController(ILogger<ProductsController> logger, IProductService productService)
+        public ProductsController(IProductService productService)
         {
-            _logger = logger;
+            _logger = Log.ForContext(typeof(ProductsController));
             _productService = productService;
         }
 
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var products = await _productService.GetAllProductsAsync();
-            return Ok(products);
+            try
+            {
+                var products = await _productService.GetAllProductsAsync();
+                return Ok(products);
+            }
+            catch(Exception ex)
+            {
+                _logger.Error(ex, "Failed to get the product details.");
+                return StatusCode(500);
+            }
         }
     }
 }

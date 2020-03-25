@@ -5,7 +5,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
+using Serilog;
+using Serilog.Events;
+using SixPivotApp.Common;
 
 namespace SixPivotApp
 {
@@ -13,14 +15,30 @@ namespace SixPivotApp
     {
         public static void Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
+            LoggerConfig.RegisterLogger();
+
+            try
+            {
+                Log.Information("Starting web host");
+                CreateHostBuilder(args).Build().Run();
+            }
+            catch(Exception ex)
+            {
+                Log.Fatal(ex, "Host terminated unexpectedly");
+            }
+            finally
+            {
+                Log.CloseAndFlush();
+            }
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseStartup<Startup>();
+                    webBuilder.UseStartup<Startup>()
+                    .UseSerilog();
                 });
+            
     }
 }

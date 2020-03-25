@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
+using Serilog;
 using SixPivotApp.Models;
 using SixPivotApp.Services;
 using SixPivotApp.Services.Interfaces;
@@ -14,12 +14,13 @@ namespace SixPivotApp.Controllers
     [Route("api/[controller]")]
     public class OrdersController : ControllerBase
     {
-        private readonly ILogger<OrdersController> _logger;
+        private readonly ILogger _logger;
         private readonly IOrdersService _ordersService;
 
-        public OrdersController(ILogger<OrdersController> logger, IOrdersService ordersService)
+
+        public OrdersController(IOrdersService ordersService)
         {
-            _logger = logger;
+            _logger = Log.ForContext(typeof(OrdersController));
             _ordersService = ordersService;
         }
 
@@ -33,8 +34,7 @@ namespace SixPivotApp.Controllers
             }
             catch(Exception ex)
             {
-                //TODO: add proper logging
-                //_logger.LogError(ex, "Failed to ")
+                _logger.Error(ex, "Failed to submit the order.");
                 return StatusCode(500);
             }
         }
