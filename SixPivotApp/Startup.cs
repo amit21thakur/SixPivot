@@ -12,6 +12,7 @@ using SixPivotApp.Common;
 using SixPivotApp.Common.Interfaces;
 using SixPivotApp.Services;
 using SixPivotApp.Services.Interfaces;
+using StackExchange.Redis;
 
 namespace SixPivotApp
 {
@@ -38,6 +39,7 @@ namespace SixPivotApp
 
             services.Configure<VendorApiSettings>(Configuration.GetSection("VendorApiSettings"));
 
+            services.AddSingleton<ConnectionMultiplexer>(x => ConnectionMultiplexer.Connect(Configuration.GetConnectionString("RedisConnection")));
 
             services.AddTransient<IApiClient, ApiClient>()
             .AddScoped<IJsonSerializer, JsonSerializer>()
@@ -47,7 +49,9 @@ namespace SixPivotApp
             .AddScoped<IOrdersApiClient, OrdersApiClient>()
             .AddScoped<IProductService, ProductService>()
             .AddScoped<IOrdersService, OrdersService>()
-            .AddScoped<IFxRatesService, FxRatesService>();
+            .AddScoped<IFxRatesService, FxRatesService>()
+            .AddScoped<ICacheService, CacheService>()
+            ;
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
